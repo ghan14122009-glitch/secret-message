@@ -1,72 +1,79 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Secret Message</title>
-
-<style>
-body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(45deg,#ff4e50,#fc913a,#f9d423);
-    font-family:Arial;
-    color:white;
-    text-align:center;
-}
-
-.box{
-    background:rgba(0,0,0,0.5);
-    padding:40px;
-    border-radius:20px;
-}
-
-button{
-    padding:15px 30px;
-    font-size:18px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    background:#00ffd5;
-}
-
-h1{
-    display:none;
-    margin-top:30px;
-    animation:pop 1s ease;
-}
-
-@keyframes pop{
-0%{transform:scale(0)}
-100%{transform:scale(1)}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Animation</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
 </head>
-
 <body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-<div class="box">
+        let particles = [];
+        const numParticles = 1000;
 
-<h2>🔒 Secret message</h2>
-<p>Nhấn nút để mở</p>
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = (Math.random() - 0.5) * 3;
+                this.speedY = (Math.random() - 0.5) * 3;
+                this.color = 'rgba(255, 255, 255, 0.8)';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
 
-<button onclick="showMessage()">Mở bí mật</button>
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+        }
 
-<h1 id="msg">
-🎉 Chúc mừng sinh nhật!  
-<br>
-Chúc bạn luôn vui vẻ và thành công! ✨
-</h1>
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle, index) => {
+                particle.update();
+                particle.draw();
+                if (particle.size <= 0) {
+                    particles.splice(index, 1);
+                    particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+                }
+            });
+            requestAnimationFrame(animate);
+        }
 
-</div>
+        function formFlower() {
+            setInterval(() => {
+                particles.forEach((particle, index) => {
+                    const angle = (index / particles.length) * Math.PI * 2;
+                    const radius = Math.random() * 100 + 50;
+                    particle.x = canvas.width / 2 + Math.cos(angle) * radius;
+                    particle.y = canvas.height / 2 + Math.sin(angle) * radius;
+                    particle.size = 5;
+                });
+            }, 2000);
+        }
 
-<script>
-function showMessage(){
-document.getElementById("msg").style.display="block"
-}
-</script>
-
+        animate();
+        formFlower();
+    </script>
 </body>
 </html>
