@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Secret Message</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(45deg,#ff4e50,#fc913a,#f9d423);
+    font-family:Arial;
+    color:white;
+    text-align:center;
+}
+
+.box{
+    background:rgba(0,0,0,0.5);
+    padding:40px;
+    border-radius:20px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#00ffd5;
+}
+
+h1{
+    display:none;
+    margin-top:30px;
+    animation:pop 1s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0)}
+100%{transform:scale(1)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🔒 Secret message</h2>
+<p>Nhấn nút để mở</p>
+
+<button onclick="showMessage()">Mở bí mật</button>
+
+<h1 id="msg">
+🎉 Chúc mừng sinh nhật!  
+<br>
+Chúc bạn luôn vui vẻ và thành công! ✨
+</h1>
+
+</div>
+
+<script>
+function showMessage(){
+document.getElementById("msg").style.display="block"
+}
+</script>
+
+</body>
+</html>
